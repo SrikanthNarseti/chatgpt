@@ -1,9 +1,24 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0">
   <modelVersion>4.0.0</modelVersion>
-
   <groupId>com.example</groupId>
   <artifactId>demo-app</artifactId>
   <version>1.0</version>
+
+  <!-- ADD: Spring Boot Parent -->
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>3.1.0</version>
+    <relativePath/>
+  </parent>
+
+  <!-- ADD: Spring Boot Dependency -->
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+  </dependencies>
 
   <build>
     <plugins>
@@ -15,6 +30,13 @@
           <target>17</target>
         </configuration>
       </plugin>
+
+      <!-- ADD: This plugin creates the executable fat JAR -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+
     </plugins>
   </build>
 </project>
