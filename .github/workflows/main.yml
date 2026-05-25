@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - name: writr index.html file
         run: | 
+        
           ls -ltr
           sudo cp ./actions-runner/_work/chatgpt/chatgpt/index.html /usr/share/nginx/html/
 
