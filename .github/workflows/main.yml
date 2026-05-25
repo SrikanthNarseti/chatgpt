@@ -1,11 +1,17 @@
 name: sample workflow
-on: 
-  push: 
-    branches:
-      - master
-
+on:
+  workflow_dispatch:
+env:
+  SAMPLE_ENV_VAR: "Srikanth cloud"
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Hello GitHub Actions"
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Print environment variable
+        run: 'echo "The value of SAMPLE_ENV_VAR is:  $SAMPLE_ENV_VAR"'
+
+      - name: Run a sample script
+        run: ls -la
