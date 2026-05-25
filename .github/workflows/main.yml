@@ -15,7 +15,7 @@ jobs:
               mkdir -p  backup
           fi
 
-          mv /usr/share/nginx/html/index.html ./actions-runner/_work/chatgpt/chatgpt/backup/
+          sudo mv /usr/share/nginx/html/index.html ./actions-runner/_work/chatgpt/chatgpt/backup/
           cp ./actions-runner/_work/chatgpt/chatgpt/index.html /usr/share/nginx/html/
 
       
