@@ -13,6 +13,6 @@ jobs:
         run: | 
         
           ls -ltr
-          sudo cp ./actions-runner/_work/chatgpt/chatgpt/index.html /usr/share/nginx/html/
+          sudo cp index.html /usr/share/nginx/html/
 
       
