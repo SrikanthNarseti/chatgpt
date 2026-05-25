@@ -12,6 +12,8 @@ jobs:
       - name: writr index.html file
         run: |
           whoami
+          ls -ltr /usr/share/nginx/html/
+          ls -ltr backup/
           if [ ! -d "backup" ]; then
               mkdir backup
           fi
