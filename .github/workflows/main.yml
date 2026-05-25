@@ -1,6 +1,8 @@
 name: sample workflow
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - master
 env:
   SAMPLE_ENV_VAR: "Srikanth cloud"
 jobs:
