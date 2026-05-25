@@ -10,12 +10,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: writr index.html file
-        run: |
-          if [ ! -d "backup" ]; then
-              mkdir -p  backup
-          fi
-
-          sudo mv /usr/share/nginx/html/index.html ./actions-runner/_work/chatgpt/chatgpt/backup/
+        run: | 
+          ls -ltr
           sudo cp ./actions-runner/_work/chatgpt/chatgpt/index.html /usr/share/nginx/html/
 
       
