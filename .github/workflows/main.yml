@@ -11,6 +11,7 @@ jobs:
         uses: actions/checkout@v2
       - name: writr index.html file
         run: |
+          whoami
           if [ ! -d "backup" ]; then
               mkdir backup
           fi
