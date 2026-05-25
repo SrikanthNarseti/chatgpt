@@ -16,6 +16,7 @@ jobs:
       - name: buil the docker image 
         run: |
           docker build -t test .
+          docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
           docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
       - name: push the image to ecr
         run: |
