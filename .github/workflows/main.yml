@@ -11,6 +11,11 @@ jobs:
         uses: actions/checkout@v2
       - name: writr index.html file
         run: |
-          echo "<h1> this changes comes from pipeline<h1>" > /usr/share/nginx/html/index.html
+          if [ ! -d "backup" ]; then
+              mkdir backup
+          fi
+
+          mv /usr/share/nginx/html/index.html backup/
+          cp ./index.html /usr/share/nginx/html/
 
       
