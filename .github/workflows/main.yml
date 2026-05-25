@@ -17,6 +17,6 @@ jobs:
       - name: Print environment variable
         run: |
           echo "The value of SAMPLE_ENV_VAR is:  $SAMPLE_ENV_VAR"
-          echo "The value of DEMO is:  $DEMO"
+          echo "The value of DEMO is:  ${{vars.DEMO}}"
       - name: Run a sample script
         run: ls -la
