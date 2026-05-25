@@ -7,13 +7,16 @@ env:
   SAMPLE_ENV_VAR: "Srikanth cloud"
 jobs:
   build:
+    env:
+      DEMO: "Hi, welcome to CLOUD"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
       - name: Print environment variable
-        run: 'echo "The value of SAMPLE_ENV_VAR is:  $SAMPLE_ENV_VAR"'
-
+        run: |
+          'echo "The value of SAMPLE_ENV_VAR is:  $SAMPLE_ENV_VAR"'
+          'echo "The value of DEMO is:  $DEMO"'
       - name: Run a sample script
         run: ls -la
