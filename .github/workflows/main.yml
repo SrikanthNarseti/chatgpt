@@ -18,5 +18,8 @@ jobs:
         run: |
           echo "The value of SAMPLE_ENV_VAR is:  $SAMPLE_ENV_VAR"
           echo "The value of DEMO is:  ${{vars.DEMO}}"
+      - name: Print Build Number
+        run: |
+          echo "Build Number: ${{ github.run_number }}"
       - name: Run a sample script
         run: ls -la
