@@ -8,6 +8,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Maven Build
+        run: mvn clean package
       - name: login to ecr
         run: | 
           aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin 687098277845.dkr.ecr.ap-south-2.amazonaws.com
