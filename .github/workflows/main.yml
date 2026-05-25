@@ -16,6 +16,6 @@ jobs:
           fi
 
           sudo mv /usr/share/nginx/html/index.html ./actions-runner/_work/chatgpt/chatgpt/backup/
-          cp ./actions-runner/_work/chatgpt/chatgpt/index.html /usr/share/nginx/html/
+          sudo cp ./actions-runner/_work/chatgpt/chatgpt/index.html /usr/share/nginx/html/
 
       
