@@ -1,18 +1,20 @@
 name: sample workflow
 on:
-  push:
-    branches:
-      - master
+  workflow_dispatch: 
+    
 jobs:
   build:
     runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      - name: writr index.html file
+      - name: login to ecr
         run: | 
-        
-          ls -ltr
-          sudo cp index.html /usr/share/nginx/html/
-
+          aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin 687098277845.dkr.ecr.ap-south-2.amazonaws.com
+      - name: buil the docker image 
+        run: |
+          docker build -t test .
+          docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
+      - name: push the image to ecr
+        run: docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
       
