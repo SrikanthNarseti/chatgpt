@@ -3,23 +3,14 @@ on:
   push:
     branches:
       - master
-env:
-  SAMPLE_ENV_VAR: "Srikanth cloud"
 jobs:
   build:
-    env:
-      DEMO: "Hi, welcome to CLOUD"
     runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: writr index.html file
+        run: |
+          echo "<h1> this changes comes from pipeline<h1>" > /usr/share/nginx/html/index.html
 
-      - name: Print environment variable
-        run: |
-          echo "The value of SAMPLE_ENV_VAR is:  $SAMPLE_ENV_VAR"
-          echo "The value of DEMO is:  ${{vars.DEMO}}"
-      - name: Print Build Number
-        run: |
-          echo "Build Number: ${{ github.run_number }}"
-      - name: list all s3 buckets
-        run: aws s3 ls
+      
