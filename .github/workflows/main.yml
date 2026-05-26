@@ -1,25 +1,51 @@
-name: sample workflow
-on:
-  workflow_dispatch: 
+# name: sample workflow
+# on:
+#   workflow_dispatch: 
     
+# jobs:
+#   build:
+#     runs-on: self-hosted
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
+#       - name: Maven Build
+#         run: mvn clean package
+#       - name: login to ecr
+#         run: | 
+#           aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin 687098277845.dkr.ecr.ap-south-2.amazonaws.com
+#       - name: buil the docker image 
+#         run: |
+#           docker build -t test .
+#           docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
+#           docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
+#       - name: push the image to ecr
+#         run: |
+#            docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
+#            docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
+
+name: Deploy
+
+on:
+  workflow_dispatch:
+
 jobs:
-  build:
-    runs-on: self-hosted
+
+  deploy:
+
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Maven Build
-        run: mvn clean package
-      - name: login to ecr
-        run: | 
-          aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin 687098277845.dkr.ecr.ap-south-2.amazonaws.com
-      - name: buil the docker image 
-        run: |
-          docker build -t test .
-          docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
-          docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
-      - name: push the image to ecr
-        run: |
-           docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
-           docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
-      
+
+      - uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+
+        uses: aws-actions/configure-aws-credentials@v4
+
+        with:
+          role-to-assume: arn:aws:iam::512830091438:role/crossaccountpolicy
+          aws-region: ap-south-2
+
+      - name: Verify
+
+        run: aws sts get-caller-identity
