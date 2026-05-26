@@ -27,6 +27,8 @@ jobs:
         export AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r '.Credentials.SecretAccessKey')
 
         export AWS_SESSION_TOKEN=$(echo $CREDS | jq -r '.Credentials.SessionToken')
+    - name: checking role name
+      run: aws sts get-caller-identity
     - name: AWS ECR Login
       run: |
         aws ecr get-login-password --region ap-south-2 | \
