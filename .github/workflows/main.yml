@@ -1,25 +1,69 @@
-name: sample workflow
+name: Java ECR ArgoCD Pipeline
+
 on:
-  workflow_dispatch: 
-    
+  workflow_dispatch:
+
 jobs:
+
   build:
+
     runs-on: self-hosted
+
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Maven Build
-        run: mvn clean package
-      - name: login to ecr
-        run: | 
-          aws ecr get-login-password --region ap-south-2 | docker login --username AWS --password-stdin 687098277845.dkr.ecr.ap-south-2.amazonaws.com
-      - name: buil the docker image 
-        run: |
-          docker build -t test .
-          docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
-          docker tag test:latest 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
-      - name: push the image to ecr
-        run: |
-           docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:${{ github.sha }}
-           docker push 687098277845.dkr.ecr.ap-south-2.amazonaws.com/test:latest
-      
+
+    - name: Checkout Code
+      uses: actions/checkout@v4
+
+    - name: Maven Build
+      run: mvn clean package
+
+    - name: AWS ECR Login
+      run: |
+        aws ecr get-login-password --region ap-south-2 | \
+        docker login \
+        --username AWS \
+        --password-stdin \
+        512830091438.dkr.ecr.ap-south-2.amazonaws.com
+
+    - name: Build Docker Image
+      run: |
+        VERSION=v1.${{ github.run_number }}
+
+        docker build -t test .
+
+        docker tag test:latest \
+        512830091438.dkr.ecr.ap-south-2.amazonaws.com/test:$VERSION
+
+        docker tag test:latest \
+        512830091438.dkr.ecr.ap-south-2.amazonaws.com/test:latest
+
+    - name: Push Image
+      run: |
+        VERSION=v1.${{ github.run_number }}
+
+        docker push \
+        512830091438.dkr.ecr.ap-south-2.amazonaws.com/test:$VERSION
+
+        docker push \
+        512830091438.dkr.ecr.ap-south-2.amazonaws.com/test:latest
+
+    - name: Update Manifest
+      run: |
+        VERSION=v1.${{ github.run_number }}
+
+        sed -i \
+        "s|image:.*|image: 512830091438.dkr.ecr.ap-south-2.amazonaws.com/test:$VERSION|g" \
+        k8s/deployment.yaml
+
+    - name: Git Commit Manifest
+      run: |
+
+        git config --global user.name github-actions
+        git config --global user.email actions@github.com
+
+        git add k8s/deployment.yaml
+
+        git commit -m \
+        "Updated image version"
+
+        git push
