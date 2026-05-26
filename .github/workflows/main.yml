@@ -29,23 +29,20 @@ on:
   workflow_dispatch:
 
 jobs:
-
   deploy:
-
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write    # Add this line
+      contents: read     # Optional, but recommended
 
     steps:
-
       - uses: actions/checkout@v4
 
       - name: Configure AWS Credentials
-
         uses: aws-actions/configure-aws-credentials@v4
-
         with:
           role-to-assume: arn:aws:iam::512830091438:role/crossaccountpolicy
           aws-region: ap-south-2
 
       - name: Verify
-
         run: aws sts get-caller-identity
