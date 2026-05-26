@@ -16,19 +16,23 @@ jobs:
 
     - name: Maven Build
       run: mvn clean package
+
     - name: Configure AWS Credentials
       run: |
+
         CREDS=$(aws sts assume-role \
           --role-arn arn:aws:iam::512830091438:role/crossaccountpolicy \
           --role-session-name demo)
 
-        export AWS_ACCESS_KEY_ID=$(echo $CREDS | jq -r '.Credentials.AccessKeyId')
+        echo "AWS_ACCESS_KEY_ID=$(echo $CREDS | jq -r '.Credentials.AccessKeyId')" >> $GITHUB_ENV
 
-        export AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r '.Credentials.SecretAccessKey')
+        echo "AWS_SECRET_ACCESS_KEY=$(echo $CREDS | jq -r '.Credentials.SecretAccessKey')" >> $GITHUB_ENV
 
-        export AWS_SESSION_TOKEN=$(echo $CREDS | jq -r '.Credentials.SessionToken')
-    - name: checking role name
+        echo "AWS_SESSION_TOKEN=$(echo $CREDS | jq -r '.Credentials.SessionToken')" >> $GITHUB_ENV
+
+    - name: Verify Role
       run: aws sts get-caller-identity
+
     - name: AWS ECR Login
       run: |
         aws ecr get-login-password --region ap-south-2 | \
@@ -75,7 +79,6 @@ jobs:
 
         git add k8s/deployment.yaml
 
-        git commit -m \
-        "Updated image version"
+        git commit -m "Updated image version" || true
 
         git push
